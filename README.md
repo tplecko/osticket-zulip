@@ -25,14 +25,10 @@ This plugin uses CURL and tested on osTicket-1.10.1
 - Select "Incoming Webook", Give a name to your bot and record your settings to be added to the osTicket configuration.
 - Click "Create Bot"
 
-## Adding the plugin to osTicket
-- Copy the osticket-zulip directory to <osticker base directory>/include/plugins (maintaining acceptable file permissions)
-- From the osTicket Admin Panel, click "Manage", "Plugins", and "Add New Plugin". Add the new plugin.
-- From the Plugins panel, click your plugin name and enter the credentials and other details such as stream name.
-
-
 ## Test!
 Create a ticket!
+
+
 
 You should see something like the following appear in your Slack channel:
 
