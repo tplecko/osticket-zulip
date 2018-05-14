@@ -1,6 +1,6 @@
 osTicket-Zulip
 ==============
-An plugin for [osTicket](https://osticket.com) which posts notifications to a [Slack](https://slack.com) channel.
+An plugin for [osTicket](https://osticket.com) which posts notifications to a [Zulip](https://zulipchat.com/) stream.
 
 Forked from: [https://github.com/clonemeagain/osticket-slack](https://github.com/clonemeagain/osticket-slack)
 Which was originally forked from: [https://github.com/thammanna/osticket-slack](https://github.com/thammanna/osticket-slack).
