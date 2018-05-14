@@ -16,7 +16,7 @@ This plugin uses CURL and tested on osTicket-1.10.1
 
 ## Requirements
 - php_curl
-- A Zulip bot account configured to be a incoming webhook
+- A Zulip bot account configured to be an incoming webhook
 
 ## To Install into zulip 
 - Access your Zulip system in a web browser
