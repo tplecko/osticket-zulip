@@ -65,14 +65,14 @@ class ZulipPlugin extends Plugin {
         }
         if (!$entry instanceof MessageThreadEntry) {
             // this was a reply or a system entry.. not a message from a user
-//            return;
+            return;
         }
 
         // Need to fetch the ticket from the ThreadEntry
         $ticket = $this->getTicket($entry);
         if (!$ticket instanceof Ticket) {
             // Admin created ticket's won't work here.
-//            return;
+            return;
         }
 
         // Check to make sure this entry isn't the first (ie: a New ticket)
