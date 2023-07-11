@@ -2,8 +2,8 @@ osTicket-Zulip
 ==============
 A plugin for [osTicket](https://osticket.com) which posts notifications to a [Zulip](https://zulipchat.com/) stream.
 
-Forked from: [https://github.com/clonemeagain/osticket-slack](https://github.com/clonemeagain/osticket-slack)
-
+Forked from: [https://github.com/MikeColes/osticket-zulip](https://github.com/clonemeagain/osticket-slack)
+Which was forked from: [https://github.com/clonemeagain/osticket-slack](https://github.com/clonemeagain/osticket-slack)
 Which was originally forked from: [https://github.com/thammanna/osticket-slack](https://github.com/thammanna/osticket-slack).
 
 Install
@@ -12,7 +12,7 @@ Clone this repo or download the zip file and place the contents into your `inclu
 
 Info
 ------
-This plugin uses CURL and tested on osTicket-1.10.1
+This plugin uses CURL and tested on osTicket-1.18
 
 ## Requirements
 - php_curl

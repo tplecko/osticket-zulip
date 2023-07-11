@@ -12,10 +12,22 @@ class ZulipPlugin extends Plugin {
 
     var $config_class = "ZulipPluginConfig";
 
+    static $pluginInstance = null;
+
+    private function getPluginInstance(?int $id) {
+        if($id && ($i = $this->getInstance($id)))
+            return $i;
+
+        return $this->getInstances()->first();
+    }
+
     /**
      * The entrypoint of the plugin, keep short, always runs.
      */
     function bootstrap() {
+        // get plugin instances
+        self::$pluginInstance = self::getPluginInstance(null);
+
         // Listen for osTicket to tell us it's made a new ticket or updated
         // an existing ticket:
         Signal::connect('ticket.created', array($this, 'onTicketCreated'));
@@ -110,13 +122,13 @@ class ZulipPlugin extends Plugin {
             error_log("Zulip plugin called too early.");
             return;
         }
-        $url = $this->getConfig()->get('zulip-webhook-url');
+        $url = $this->getConfig(self::$pluginInstance)->get('zulip-webhook-url');
         if (!$url) {
             $ost->logError('Zulip Plugin not configured', 'You need to read the Readme and configure a webhook URL before using this.');
         }
 
         // Check the subject, see if we want to filter it.
-        $regex_subject_ignore = $this->getConfig()->get('zulip-regex-subject-ignore');
+        $regex_subject_ignore = $this->getConfig(self::$pluginInstance)->get('zulip-regex-subject-ignore');
         // Filter on subject, and validate regex:
         if ($regex_subject_ignore && preg_match("/$regex_subject_ignore/i", $ticket->getSubject())) {
             $ost->logDebug('Ignored Message', 'Zulip notification was not sent because the subject (' . $ticket->getSubject() . ') matched regex (' . htmlspecialchars($regex_subject_ignore) . ').');
@@ -128,7 +140,7 @@ class ZulipPlugin extends Plugin {
         $heading = $this->format_text($heading);
 
         // Pull template from config, and use that. 
-        $template          = $this->getConfig()->get('message-template');
+        $template          = $this->getConfig(self::$pluginInstance)->get('message-template');
         // Add our custom var
         $custom_vars       = [
             'zulip_safe_message' => $this->format_text($body),
@@ -139,7 +151,7 @@ class ZulipPlugin extends Plugin {
 //        $payload['attachments'][0] = [
         $payload = array (
             'type'        => 'stream',
-            'to'          => $this->getConfig()->get('zulip-stream'),
+            'to'          => $this->getConfig(self::$pluginInstance)->get('zulip-stream'),
             'subject'     => $ticket->getNumber(). " - ". $ticket->getSubject(),
 //            'title_link'  => $cfg->getUrl() . 'scp/tickets.php?id=' . $ticket->getId(),
             'content'       => "[#".$ticket->getNumber()."](". $cfg->getUrl() . 'scp/tickets.php?id=' . $ticket->getId(). ")  ". $formatted_message,  
@@ -169,7 +181,7 @@ class ZulipPlugin extends Plugin {
         try {
             // Setup curl
             $ch = curl_init($url);
-            curl_setopt($ch, CURLOPT_USERPWD, $this->getConfig()->get('zulip-user').":".$this->getConfig()->get('zulip-api-token'));
+            curl_setopt($ch, CURLOPT_USERPWD, $this->getConfig(self::$pluginInstance)->get('zulip-user').":".$this->getConfig(self::$pluginInstance)->get('zulip-api-token'));
             curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 //            curl_setopt($ch, CURLOPT_POSTFIELDS, $data_string);
             curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
@@ -238,7 +250,7 @@ class ZulipPlugin extends Plugin {
             'CONTROLEND'   => '>'
         ];
         // Replace the CONTROL characters, and limit text length to 500 characters.
-        return substr(str_replace(array_keys($moreformatter), array_values($moreformatter), $formatted_text), 0, 500);
+        return mb_substr(str_replace(array_keys($moreformatter), array_values($moreformatter), $formatted_text), 0, 500);
     }
 
     /**
