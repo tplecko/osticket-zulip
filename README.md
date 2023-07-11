@@ -3,7 +3,9 @@ osTicket-Zulip
 A plugin for [osTicket](https://osticket.com) which posts notifications to a [Zulip](https://zulipchat.com/) stream.
 
 Forked from: [https://github.com/MikeColes/osticket-zulip](https://github.com/clonemeagain/osticket-slack)
+
 Which was forked from: [https://github.com/clonemeagain/osticket-slack](https://github.com/clonemeagain/osticket-slack)
+
 Which was originally forked from: [https://github.com/thammanna/osticket-slack](https://github.com/thammanna/osticket-slack).
 
 Install
